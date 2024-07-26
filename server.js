@@ -16,6 +16,11 @@ const http = require('http'),
 const serverPort = parseInt(port, 10);
 
 http.createServer({}, function(request, response) {
+    if (path.normalize(decodeURI(request.url)) !== decodeURI(request.url)) {
+        response.statusCode = 403;
+        response.end();
+        return;
+    }
   var uri = url.parse(request.url).pathname,
     filename = path.join(process.cwd(), uri);
 
